@@ -4,7 +4,7 @@
 
 A responsive Apartment Rental Service web application
 
-[Live Preview](https://apartment-hun.web.app/) | [Live API Server](https://apartment-hunt-react.herokuapp.com/)
+[Live Preview]() | [Live API Server](https://apartment-hunt808.herokuapp.com/)| [Back-end Repository](https://github.com/RaselKazi/apartment-hunt-server)
 
 ## Feature
 
@@ -46,6 +46,6 @@ Note: Only admin user have ability to view admin dashboard.
 - Dotenv
 - nodemon
 
-[Back-end Repository](https://github.com/faisalcep/apartment-hunt-server)
+[Back-end Repository](https://github.com/RaselKazi/apartment-hunt-server)
 
 ---

@@ -1,18 +1,18 @@
-import React, { createContext, useEffect, useState } from 'react';
-import './App.scss';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './Components/Home/Home/Home';
-import Login from './Components/Login/Login';
-import NoMatch from './Components/NoMatch/NoMatch';
-import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
-import { loggedInInfo } from './Components/Login/loginManager';
-import DashboardLayout from './Pages/DashboardLayout/DashboardLayout';
-import AddService from './Components/Dashboard/AddHouse/AddHouse';
-import AddAdmin from './Components/Dashboard/AddAdmin/AddAdmin';
-import ApartmentDetails from './Components/ApartmentDetails/ApartmentDetails';
-import NavBar from './Components/Home/NavBar/NavBar';
-import ClientRentList from './Components/Dashboard/ClientRentList/ClientRentList';
-import AdminBookingList from './Components/Dashboard/AdminBookingList/AdminBookingList';
+import React, { createContext, useEffect, useState } from "react";
+import "./App.scss";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "./Components/Home/Home/Home";
+import Login from "./Components/Login/Login";
+import NoMatch from "./Components/NoMatch/NoMatch";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import { loggedInInfo } from "./Components/Login/loginManager";
+import DashboardLayout from "./Pages/DashboardLayout/DashboardLayout";
+import AddService from "./Components/Dashboard/AddHouse/AddHouse";
+import AddAdmin from "./Components/Dashboard/AddAdmin/AddAdmin";
+import ApartmentDetails from "./Components/ApartmentDetails/ApartmentDetails";
+import NavBar from "./Components/Home/NavBar/NavBar";
+import ClientRentList from "./Components/Dashboard/ClientRentList/ClientRentList";
+import AdminBookingList from "./Components/Dashboard/AdminBookingList/AdminBookingList";
 // ========================================================================================
 
 // Context
@@ -29,9 +29,9 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    fetch('https://apartment-hunt-react.herokuapp.com/isAdmin', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
+    fetch("https://apartment-hunt808.herokuapp.com/isAdmin", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({ email: loggedInUserSession.email }),
     })
       .then((res) => res.json())
@@ -42,9 +42,9 @@ function App() {
   const [isAdminTemp, setIsAdminTemp] = useState(false);
 
   useEffect(() => {
-    fetch('https://apartment-hunt-react.herokuapp.com/isAdmin', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
+    fetch("https://apartment-hunt808.herokuapp.com/isAdmin", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({ email: loggedInUser.email }),
     })
       .then((res) => res.json())
@@ -57,43 +57,43 @@ function App() {
         <UserContext.Provider value={[loggedInUser, SetLoggedInUser]}>
           <Router>
             <Switch>
-              <Route exact path='/'>
+              <Route exact path="/">
                 <Home />
               </Route>
-              <Route exact path='/home'>
+              <Route exact path="/home">
                 <Home />
               </Route>
-              <Route exact path='/login'>
+              <Route exact path="/login">
                 <NavBar />
                 <Login />
               </Route>
-              <Route path='/apartment-details/:_id'>
+              <Route path="/apartment-details/:_id">
                 <NavBar />
                 <ApartmentDetails />
               </Route>
 
-              <PrivateRoute exact path='/my-rent'>
-                <DashboardLayout title='My Rent'>
+              <PrivateRoute exact path="/my-rent">
+                <DashboardLayout title="My Rent">
                   <ClientRentList />
                 </DashboardLayout>
               </PrivateRoute>
 
-              <PrivateRoute exact path='/admin-booking-lists'>
-                <DashboardLayout title='Booking List'>
-                  <AdminBookingList/>
+              <PrivateRoute exact path="/admin-booking-lists">
+                <DashboardLayout title="Booking List">
+                  <AdminBookingList />
                 </DashboardLayout>
               </PrivateRoute>
-              <PrivateRoute exact path='/addHouse'>
-                <DashboardLayout title='Add House'>
+              <PrivateRoute exact path="/addHouse">
+                <DashboardLayout title="Add House">
                   <AddService />
                 </DashboardLayout>
               </PrivateRoute>
-              <PrivateRoute exact path='/makeAdmin'>
-                <DashboardLayout title='Add Admin'>
+              <PrivateRoute exact path="/makeAdmin">
+                <DashboardLayout title="Add Admin">
                   <AddAdmin />
                 </DashboardLayout>
               </PrivateRoute>
-              <Route path='*'>
+              <Route path="*">
                 <NoMatch />
               </Route>
             </Switch>

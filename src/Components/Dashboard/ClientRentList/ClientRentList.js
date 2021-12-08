@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../../App';
-import './ClientRentList.scss';
-import PreLoader from '../../PreLoader/PreLoader';
-import { loggedInInfo } from '../../Login/loginManager';
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../App";
+import "./ClientRentList.scss";
+import PreLoader from "../../PreLoader/PreLoader";
+import { loggedInInfo } from "../../Login/loginManager";
 //======================================================================
 
 const ClientRentList = () => {
@@ -20,12 +20,16 @@ const ClientRentList = () => {
 
   // Dynamically filter loggedInUser data from API:
   useEffect(() => {
-    fetch('https://apartment-hunt-react.herokuapp.com/clientServices?email=' + loggedUser.email, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    fetch(
+      "https://apartment-hunt808.herokuapp.com/clientServices?email=" +
+        loggedUser.email,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -38,24 +42,24 @@ const ClientRentList = () => {
 
   return (
     <>
-      <div className='table-responsive'>
-        <table className='table table-borderless table-hover bg-white rounded my-4'>
-          <thead className='thead-light'>
+      <div className="table-responsive">
+        <table className="table table-borderless table-hover bg-white rounded my-4">
+          <thead className="thead-light">
             <tr>
-              <th className='text-secondary text-left' scope='col'>
+              <th className="text-secondary text-left" scope="col">
                 #
               </th>
-              <th className='text-secondary' scope='col'>
+              <th className="text-secondary" scope="col">
                 House Name
               </th>
-              <th className='text-secondary' scope='col'>
+              <th className="text-secondary" scope="col">
                 Price
               </th>
-              <th className='text-secondary text-center' scope='col'>
+              <th className="text-secondary text-center" scope="col">
                 {/* Service */}
                 Action
               </th>
-              <th className='text-secondary text-center' scope='col'>
+              <th className="text-secondary text-center" scope="col">
                 {/* Service */}
                 Status
               </th>
@@ -67,17 +71,17 @@ const ClientRentList = () => {
                 <td>{serialNo++}</td>
                 <td>{apt.apartment_name}</td>
                 <td>${apt.price}</td>
-                <td className='text-center'>
-                  <button className='btn btn-success'>View Details</button>
+                <td className="text-center">
+                  <button className="btn btn-success">View Details</button>
                 </td>
-                <td className='text-center'>
+                <td className="text-center">
                   <button
                     className={
-                      apt.status == 'Pending'
-                        ? 'client-status-btn btn btn-danger '
-                        : apt.status == 'Done'
-                        ? 'client-status-btn btn btn-success'
-                        : 'client-status-btn btn btn-warning'
+                      apt.status == "Pending"
+                        ? "client-status-btn btn btn-danger "
+                        : apt.status == "Done"
+                        ? "client-status-btn btn btn-success"
+                        : "client-status-btn btn btn-warning"
                     }
                   >
                     {apt.status}

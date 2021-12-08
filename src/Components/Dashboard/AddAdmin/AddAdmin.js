@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-import { AdminContext, AdminContextTemp, UserContext } from '../../../App';
+import React, { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { AdminContext, AdminContextTemp, UserContext } from "../../../App";
 // ========================================================
 
 const AddAdmin = () => {
@@ -11,17 +11,17 @@ const AddAdmin = () => {
   // handle redirected to home
   let history = useHistory();
   function handleAdminUpdate() {
-    history.push('/');
+    history.push("/");
   }
 
   // handle Add admin when form Submit:
   const onSubmit = (data) => {
     const newAdmin = { ...data };
-    console.log('new admin', newAdmin);
+    console.log("new admin", newAdmin);
 
-    fetch('https://apartment-hunt-react.herokuapp.com/addAdmin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("https://apartment-hunt808.herokuapp.com/addAdmin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newAdmin),
     })
       .then((res) => res.json())
@@ -32,17 +32,17 @@ const AddAdmin = () => {
       });
   };
 
-    // Allow access to Admin Only
+  // Allow access to Admin Only
   // Admin context from App.js
   const [isAdmin, setIsAdmin] = useContext(AdminContext);
   const [isAdminTemp, setIsAdminTemp] = useContext(AdminContextTemp);
-  
+
   // If admin then allow
   useEffect(() => {
     if (isAdmin || isAdminTemp) {
-      history.push('/makeAdmin');
+      history.push("/makeAdmin");
     } else {
-      history.push('/');
+      history.push("/");
     }
   }, [history, isAdmin, isAdminTemp]);
 
@@ -55,23 +55,23 @@ const AddAdmin = () => {
   const { register, handleSubmit, errors } = useForm();
 
   return (
-    <div className='rounded bg-white my-4 mx-4 p-4'>
+    <div className="rounded bg-white my-4 mx-4 p-4">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='row'>
-          <div className='col-md-6 d-flex'>
-            <div className='form-group mr-3 w-100'>
+        <div className="row">
+          <div className="col-md-6 d-flex">
+            <div className="form-group mr-3 w-100">
               <input
-                className='form-control'
-                name='email'
-                type='email'
-                placeholder='admin@apartment-hunt.com'
+                className="form-control"
+                name="email"
+                type="email"
+                placeholder="admin@apartment-hunt.com"
                 ref={register({ required: true })}
               />
-              {errors.email && <span className='error'>Email is required</span>}
+              {errors.email && <span className="error">Email is required</span>}
             </div>
 
-            <div className='text-left'>
-              <button type='submit' className='btn btn-success'>
+            <div className="text-left">
+              <button type="submit" className="btn btn-success">
                 Submit
               </button>
             </div>

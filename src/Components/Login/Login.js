@@ -1,24 +1,24 @@
-import React, { useState, useContext } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import './Login.scss';
-import googleIcon from '../../assets/logos/google-login.png';
-import facebookIcon from '../../assets/logos/facebook-login.png';
-import logo from '../../assets/logos/logo.png';
-import { UserContext } from '../../App';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+import React, { useState, useContext } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import "./Login.scss";
+import googleIcon from "../../assets/logos/google-login.png";
+import facebookIcon from "../../assets/logos/facebook-login.png";
+import logo from "../../assets/logos/logo.png";
+import { UserContext } from "../../App";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import {
   initializeLoginFramework,
   handleGoogleSignIn,
   handleFbSignIn,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from './loginManager';
-import { useForm } from 'react-hook-form';
+} from "./loginManager";
+import { useForm } from "react-hook-form";
 // ============================================================================================
 
 const Login = () => {
-  document.title = 'AH || Login';
+  document.title = "AH || Login";
 
   // Initialize Firebase
   initializeLoginFramework();
@@ -27,13 +27,13 @@ const Login = () => {
   const [newUser, SetNewUSer] = useState(false);
   const [user, setUser] = useState({
     isSignedIn: false,
-    name: '',
-    email: '',
+    name: "",
+    email: "",
     success: false,
   });
 
   // Error Message:
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Context from app.js
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
@@ -43,16 +43,24 @@ const Login = () => {
 
   const location = useLocation();
   const { from } = location.state || {
-    from: { pathname: '/' },
+    from: { pathname: "/" },
   };
 
   // Google Sign In
   const googleSignIn = () => {
-    handleGoogleSignIn().then((res) => handleResponse(res, true));
+    handleGoogleSignIn()
+      .then((res) => handleResponse(res, true))
+      .catch(function (error) {
+        // Handle error
+      });
   };
   // Facebook Sign In
   const facebookSignIn = () => {
-    handleFbSignIn().then((res) => handleResponse(res, true));
+    handleFbSignIn()
+      .then((res) => handleResponse(res, true))
+      .catch(function (error) {
+        // Handle error
+      });
   };
 
   // Handle Response
@@ -66,8 +74,8 @@ const Login = () => {
       setLoggedInUser(res);
       storeAuthToken();
       redirect && history.replace(from);
-      newUser && setError('');
-      !newUser && setError('');
+      newUser && setError("");
+      !newUser && setError("");
     }
   };
 
@@ -76,8 +84,7 @@ const Login = () => {
       .auth()
       .currentUser.getIdToken(/* forceRefresh */ true)
       .then(function (idToken) {
-        sessionStorage.setItem('token', idToken);
-        history.replace(from);
+        sessionStorage.setItem("token", idToken);
       })
       .catch(function (error) {
         // Handle error
@@ -89,12 +96,12 @@ const Login = () => {
     // debugger;
     let isFieldValid = true;
     // console.log(e.target.name, e.target.value);
-    if (e.target.name === 'email') {
+    if (e.target.name === "email") {
       isFieldValid = /\S+@\S+\.\S+/.test(e.target.value);
     }
 
     // Password with at least 1 number
-    if (e.target.name === 'password') {
+    if (e.target.name === "password") {
       const isPasswordValid = e.target.value.length >= 6;
       const passwordHasNumber = /\d{1}/.test(e.target.value);
       isFieldValid = isPasswordValid && passwordHasNumber;
@@ -128,81 +135,81 @@ const Login = () => {
   const { register, handleSubmit, watch, errors } = useForm();
 
   return (
-    <section className='container'>
-      <div className='d-flex justify-content-center flex-column align-items-center my-5'>
-        <div className='row'>
-          <div className='col-md-12 '>
+    <section className="container">
+      <div className="d-flex justify-content-center flex-column align-items-center my-5">
+        <div className="row">
+          <div className="col-md-12 ">
             {/* If not a new user then show this form, else Sign Up form*/}
             {!newUser ? (
               <form
                 onSubmit={handleSubmit(handleUserSubmit)}
-                className='login-form shadow bg-white rounded text-left p-3'
+                className="login-form shadow bg-white rounded text-left p-3"
               >
                 {/* Show error message if user not exist or password is wrong or other error */}
                 {user != null && (
-                  <p style={{ maxWidth: '400px' }} className='text-danger'>
+                  <p style={{ maxWidth: "400px" }} className="text-danger">
                     {/* * {user.error} */}
                     {error}
                   </p>
                 )}
-                <h4 className='font-weight-bold mb-3'>Login</h4>
-                <div className='form-group'>
+                <h4 className="font-weight-bold mb-3">Login</h4>
+                <div className="form-group">
                   <input
-                    className='form-control'
+                    className="form-control"
                     onBlur={handleBlur}
-                    name='email'
-                    type='email'
-                    placeholder='Email'
+                    name="email"
+                    type="email"
+                    placeholder="Email"
                     ref={register({ required: true })}
                   />
                   {errors.email && (
-                    <span className='error'>Email is required</span>
+                    <span className="error">Email is required</span>
                   )}
                 </div>
-                <div className='form-group'>
+                <div className="form-group">
                   <input
-                    className='form-control'
+                    className="form-control"
                     onBlur={handleBlur}
-                    name='password'
-                    type='password'
-                    placeholder='Password'
+                    name="password"
+                    type="password"
+                    placeholder="Password"
                     ref={register({ required: true })}
                   />
                   {errors.password && (
-                    <span className='error'>Password is required</span>
+                    <span className="error">Password is required</span>
                   )}
                 </div>
 
-                <div className='form-group'>
+                <div className="form-group">
                   <button
-                    style={{ width: '100%' }}
-                    className='btn btn-success'
-                    type='submit'
+                    style={{ width: "100%" }}
+                    className="btn btn-success"
+                    type="submit"
                   >
                     Login
                   </button>
                 </div>
 
-                <div className='form-group text-center mt-3' id='formForget'>
-                  <span>Don't have an account?</span>{' '}
+                <div className="form-group text-center mt-3" id="formForget">
+                  <span>Don't have an account?</span>{" "}
                   <span
-                    style={{ cursor: 'pointer', color: '#275A53' }}
+                    style={{ cursor: "pointer", color: "#275A53" }}
                     onClick={() => SetNewUSer(true)}
                   >
                     Create an account
                   </span>
                 </div>
 
-                <p className='horizontal-or'> or </p>
-                <div className='social-login'>
-                  <button className='btn' onClick={googleSignIn}>
-                    <img src={googleIcon} alt='google icon' />{' '}
+                <p className="horizontal-or"> or </p>
+                <div className="social-login">
+                  <button className="btn" onClick={googleSignIn}>
+                    <img src={googleIcon} alt="google icon" />{" "}
                     <span>Continue with Google</span>
                   </button>
                 </div>
-                <div className='social-login'>
-                  <button className='btn' onClick={facebookSignIn}>
-                    <img src={facebookIcon} alt='google icon' />{' '}
+                <div className="social-login">
+                  <button className="btn" onClick={facebookSignIn}>
+                    <img src={facebookIcon} alt="google icon" />{" "}
                     <span>Continue with Facebook</span>
                   </button>
                 </div>
@@ -210,85 +217,85 @@ const Login = () => {
             ) : (
               <form
                 onSubmit={handleSubmit(handleUserSubmit)}
-                className='login-form shadow bg-white rounded text-left p-3'
+                className="login-form shadow bg-white rounded text-left p-3"
               >
                 {/* Show error message if user not exist or password is wrong */}
                 {user != null && (
-                  <p style={{ maxWidth: '400px' }} className='text-danger'>
+                  <p style={{ maxWidth: "400px" }} className="text-danger">
                     {/* * {user.error} */}
                     {error}
                   </p>
                 )}
-                <h4 className='font-weight-bold mb-3'>Login</h4>
-                <div className='form-group'>
+                <h4 className="font-weight-bold mb-3">Login</h4>
+                <div className="form-group">
                   <input
-                    className='form-control'
+                    className="form-control"
                     onBlur={handleBlur}
-                    name='name'
-                    type='text'
-                    placeholder='Name'
+                    name="name"
+                    type="text"
+                    placeholder="Name"
                     ref={register({ required: true })}
                   />
                   {errors.email && (
-                    <span className='error'>Name is required</span>
+                    <span className="error">Name is required</span>
                   )}
                 </div>
-                <div className='form-group'>
+                <div className="form-group">
                   <input
-                    className='form-control'
+                    className="form-control"
                     onBlur={handleBlur}
-                    name='email'
-                    type='email'
-                    placeholder='Email'
+                    name="email"
+                    type="email"
+                    placeholder="Email"
                     ref={register({ required: true })}
                   />
                   {errors.email && (
-                    <span className='error'>Email is required</span>
+                    <span className="error">Email is required</span>
                   )}
                 </div>
-                <div className='form-group'>
+                <div className="form-group">
                   <input
-                    className='form-control'
+                    className="form-control"
                     onBlur={handleBlur}
-                    name='password'
-                    type='password'
-                    placeholder='Password'
+                    name="password"
+                    type="password"
+                    placeholder="Password"
                     ref={register({ required: true, minLength: 6 })}
                   />
                   {errors.password && (
-                    <span className='error'>
+                    <span className="error">
                       6 character with at least 1 digit is required
                     </span>
                   )}
                 </div>
-                <div className='form-group'>
+                <div className="form-group">
                   <input
-                    className='form-control'
+                    className="form-control"
                     onBlur={handleBlur}
-                    name='confirmPassword'
-                    type='password'
-                    placeholder='Confirm Password'
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Confirm Password"
                     ref={register({
-                      validate: (value) => value === watch('password'),
+                      validate: (value) => value === watch("password"),
                     })}
                   />
                   {errors.confirmPassword && (
-                    <span className='error'>Password don't match</span>
+                    <span className="error">Password don't match</span>
                   )}
                 </div>
 
-                <div className='form-group'>
+                <div className="form-group">
                   <button
-                    style={{ width: '100%' }}
-                    className='btn btn-success'
-                    type='submit'
+                    style={{ width: "100%" }}
+                    className="btn btn-success"
+                    type="submit"
                   >
                     Sign Up
                   </button>
 
                   <div
-                    className='form-group text-center mt-3'
-                    style={{ color: 'green' }}
+                    className="form-group text-center mt-3"
+                    style={{ color: "green" }}
                   >
                     {user.success && (
                       <p>
@@ -299,26 +306,26 @@ const Login = () => {
                   </div>
                 </div>
 
-                <div className='form-group text-center mt-2' id='formForget'>
-                  <span>Already have an account?</span>{' '}
+                <div className="form-group text-center mt-2" id="formForget">
+                  <span>Already have an account?</span>{" "}
                   <span
-                    style={{ cursor: 'pointer', color: '#275A53' }}
+                    style={{ cursor: "pointer", color: "#275A53" }}
                     onClick={() => SetNewUSer(false)}
                   >
                     Login
                   </span>
                 </div>
 
-                <p className='horizontal-or'> or </p>
-                <div className='social-login'>
-                  <button className='btn' onClick={googleSignIn}>
-                    <img src={googleIcon} alt='google icon' />{' '}
+                <p className="horizontal-or"> or </p>
+                <div className="social-login">
+                  <button className="btn" onClick={googleSignIn}>
+                    <img src={googleIcon} alt="google icon" />{" "}
                     <span>Continue with Google</span>
                   </button>
                 </div>
-                <div className='social-login'>
-                  <button className='btn' onClick={facebookSignIn}>
-                    <img src={facebookIcon} alt='google icon' />{' '}
+                <div className="social-login">
+                  <button className="btn" onClick={facebookSignIn}>
+                    <img src={facebookIcon} alt="google icon" />{" "}
                     <span>Continue with Facebook</span>
                   </button>
                 </div>
